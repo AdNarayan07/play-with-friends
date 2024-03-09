@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+   <head><title>Chat Room</title></head>
+   <script src="/socket.io/socket.io.js"></script>
+   <style>
+    #users {
+      position: absolute;
+      right: 0;
+    }
+   </style>
+   <body>
+        <div id="users">Online Users<br> </div>
+        <div id="message"></div>
+        <form id="messageBox">
+            <input type="text" placeholder="Type message...">
+            <input type="submit">
+        </form>
+        <script>
+            const socket = io();
+            const user = localStorage.getItem('user')
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+      
+            let roomID = urlParams.get('id')
+            socket.on('connect', ()=>{
+              console.log(socket.id);
+            if(!user) {
+                alert('login/signup first')
+                return location.href = "/"
+            }
+            socket.emit('joinRoom', { user, roomID })
+            })
+            console.log(roomID)
+            socket.on('messageReceived', (data)=>{
+                const date = new Date(data.timestamp);
+
+                const options = {
+                  year: 'numeric',
+                  month: '2-digit',
+                  day: '2-digit',
+                  hour: '2-digit',
+                  minute: '2-digit',
+                  second: '2-digit'
+                };
+
+                const dateTimeString = new Intl.DateTimeFormat('en-US', options).format(date);
+              console.log('messageReceived')
+              document.getElementById("message").innerHTML += '*' + data.user + ": " + data.message + " " + dateTimeString + '<br>'
+            })
+            document.getElementById("messageBox").addEventListener('submit', (e)=>{
+              e.preventDefault()
+              if(document.querySelector('#messageBox > input').value === "") return;
+              data = { user, message: document.querySelector('#messageBox > input').value, roomID }
+              socket.emit('messageSent', data);
+              document.querySelector('#messageBox > input').value = ""
+            })
+            socket.on('joinResponse', (res)=>{
+              if(!res.status) {
+                alert(res.error)
+                return location.href = '/'
+              } else {
+                console.log(res)
+                let messages = res.data.messages
+                let users = res.data.users
+
+                document.getElementById('users').innerHTML = "Online Users <br>"
+                users.forEach((user)=>{
+                  document.getElementById('users').innerHTML += '*' + user + '<br>'
+                })
+                
+                console.log(user, res.data.admin)
+                if(user === res.data.admin) document.getElementById('users').innerHTML += '<button onclick="deleteRoom()">Delete Room</button>'
+
+                console.log(socket.id, res.sender)
+                if(socket.id !== res.sender) return console.log('khikhikhikhi');
+                document.getElementById("message").innerHTML = ""
+                messages.forEach((msg)=>{
+                  const date = new Date(msg.timestamp);
+
+                  const options = {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit'
+                  };
+
+                  const dateTimeString = new Intl.DateTimeFormat('en-US', options).format(date);
+                  document.getElementById("message").innerHTML += '*' + msg.author + ": " + msg.content + " " + dateTimeString + '<br>'
+                })
+              }
+            })
+
+            window.addEventListener('beforeunload', () => {
+                const data = { user, roomID };
+                socket.emit('userDisconnect', data);
+            });
+            socket.on('disconnectResponse', (res) => {
+              if(!res.status) {
+                alert(res.error)
+                return location.reload()
+              } else {
+                console.log(res)
+                let users = res.data.users
+                document.getElementById('users').innerHTML = "Online Users <br>"
+                users.forEach((user)=>{
+                document.getElementById('users').innerHTML += '*' + user + '<br>'
+                })
+                if(user === res.data.admin) document.getElementById('users').innerHTML += '<button onclick="deleteRoom()">Delete Room</button>'
+              }
+            })
+
+            function deleteRoom(){
+              const result = confirm('Are you sure want to delete the room?')
+              if(result) {
+                socket.emit('deleteRoom', { roomID, user })
+              }
+            }
+            socket.on('deleteResponse', (data)=>{
+              if(!data.status) return alert(data.error)
+              alert('Admin deleted the room')
+              location.href = "/"
+            })
+         </script>
+    </body>
+   </html>
