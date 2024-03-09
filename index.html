@@ -356,7 +356,7 @@
                     <p></p>
                     <div id="myRooms">
                         <h3>My rooms</h3>
-                        <ul></ul>
+                        <ul></ul><p style='text-align:center'></p>
                     </div>
                     <div id="editProfile">
                         <form>
@@ -510,6 +510,7 @@
                 pwds.forEach((p)=>passwords.push(p.value))
 
                 if(passwords[0] !== passwords[1]) return alert('Passwords don\'t match')
+                if(containsWhitespace(passwords[0])) return alert('Passwords can\'t have whitespace')
                 let data = {  password: passwords[0] || null,  displayName: newDisplayName, dp: newDP}
                 socket.emit('editProfile', { user, data })
             })
@@ -542,7 +543,8 @@
                         document.querySelector('#myRooms > ul').innerHTML += `<a href="/room?id=${room[0]}"><li>${room[1]}</li></a>`
                     });
                 } else {
-                    document.querySelector('#myRooms').innerHTML += "<p style='text-align:center'>No Rooms, Create One</p>"
+                    document.querySelector('#myRooms > p').innerHTML = ""
+                    document.querySelector('#myRooms > p').innerHTML += "No Rooms, Create One"
                 }
                     document.querySelector('#accountMenu > p').innerHTML = '@' + user
                     document.getElementById('accountHead').innerHTML = `<img src="/DPs/${data.dp}"><div>${data.displayName}</div>`
