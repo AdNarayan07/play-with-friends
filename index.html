@@ -4,12 +4,12 @@
         <style>
             ::-webkit-scrollbar {
                 background-color: #0000;
-                width: 5px;
-                height: 5px;
+                width: 4px;
+                height: 4px;
             }
             ::-webkit-scrollbar-thumb {
                 background-color: #def;
-                border-radius: 2.5px;
+                border-radius: 2px;
             }
             ::-webkit-scrollbar-corner {
                 background-color: #0000;
@@ -27,63 +27,64 @@
                 opacity: 0.15;
             }
             .header{
-                height: 125px;
+                height: 100px;
                 width: 100vw;
                 top: 0;
                 left: 0;
                 position: fixed;
                 background: #ffd7002e;
                 backdrop-filter: blur(2.4px);
-                border-bottom: 2px solid;
+                border-bottom: 1.6px solid;
                 z-index: 1;
             }
             .main{
                 position: relative;
-                top: 125px;
+                top: 100px;
             }
             .home{   
                 position: absolute;
-                width: 87px;
-                height: 87px;
+                width: 69.6px;
+                height: 69.6px;
                 background-color: #3400008c;
-                margin: 20px;
+                margin: 16px;
                 border-radius: 50%;
-                font-size: 30px;
+                font-size: 24px;
             }
             h1 {
-                font-size: 42px;
+                font-size: 33.6px;
             }
             h2 {
-                font-size: 32px;
+                font-size: 25.6px;
             }
             h2, h3, h1 {
                 text-align: center;
             }
             input[type="submit" i], button {
                 cursor: pointer;    
-                height: 40px;
-                border-radius: 20px;
-                width: 150px;
-                border: solid 2.5px;
+                height: 32px;
+                border-radius: 16px;
+                width: 120px;
+                border: solid 2px;
                 font-weight: bold;
                 color: aliceblue;
-                font-size: 17px;
+                font-size: 13.6px;
             }
             input, button {
                 font-family: inherit;
+                font-size: 0.8em;
             }
             input[type="text"], input[type="password"] {
                 background: #13131b;
                 color: aliceblue;
-                border: 1px solid aliceblue;
-                margin: 5px;
-                border-radius: 10px;
-                padding: 4px 10px;
+                border: 0.8px solid aliceblue;
+                margin: 4px;
+                border-radius: 8px;
+                padding: 3.2px 8px;
             }
             #LSbuttons > button {
-                height: 8.5vw;
-                width: 28vw;
-                font-size: 30px;
+                height: 6.8vw;
+                width: 22.4vw;
+                font-size: 24px;
             }
             #loginBTN {
                 background: teal;
@@ -95,17 +96,16 @@
             }
             #roomsDiv, #LSbuttons, #LSforms {
                 display: ruby-text;
-                width: 74.5vw;
-                padding: 7vw;
+                width: 59.6vw;
+                padding: 5.6vw;
                 background: #22040469;
-                margin: 5vw;
-                border-radius: 40px;
-                border: 2px solid;
+                margin: 4vw auto;
+                border-radius: 32px;
+                border: 1.6px solid;
                 backdrop-filter: blur(2.4px);
             }
             #LSforms {
-                padding: 4vw;
-                margin: 2vw auto;
+                padding: 3.2vw;
             }
             #signupForm, #loginForm{
                 flex-direction: column;
@@ -113,8 +113,8 @@
             }
             #chooseDP{
                 background: #ffd7002e;
-                padding: 9px;
-                border-radius: 45px;
+                padding: 7.2px;
+                border-radius: 36px;
                 backdrop-filter: blur(2.4px);
                 margin: auto;
                 overflow-x: auto;
@@ -124,21 +124,21 @@
                 justify-content: space-between;
             }
             #otherData {
-                margin: 4vw;
-                width: 55vw;
+                margin: 3.2vw;
+                width: 44vw;
             }
             #otherData > input, #loginForm > input {
                 width: 100%;
-                height: 2vw;
-                border: 2px solid aliceblue;
+                height: 1.6vw;
+                border: 1.6px solid aliceblue;
                 border-radius: 4vw;
                 background: #000f00ba;
                 text-align: center;
-                font-size: 20px;
+                font-size: 16px;
             }
             #loginForm > input {
                 background: #002828b3;
-                width: 55vw;
+                width: 44vw;
             }
             #roomsDiv > form {
                 display: grid;
@@ -150,38 +150,38 @@
             #createRoom > input[type="submit"], #loginForm > input[type="submit"] {
                 background: teal;
                 border-color: aqua;
-                height: 3.5vw;
-                width: 14vw;
+                height: 2.8vw;
+                width: 11.2vw;
             }
             #createRoom > input[type="text"] {
-                width: 25vw;
-                height: 5vw;
-                border: 3px solid aqua;
-                border-radius: 4vw;
+                width: 20vw;
+                height: 4vw;
+                border: 2.4px solid aqua;
+                border-radius: 3.2vw;
                 background: #012828;
                 text-align: center;
-                font-size: 20px;
+                font-size: 16px;
             }
             #joinForm > input[type="submit"], #signupForm > input[type="submit"] {
                 background: rgb(1, 110, 30);
                 border-color: limegreen;
-                height: 3.5vw;
-                width: 14vw;
+                height: 2.8vw;
+                width: 11.2vw;
             }
             #signupForm > input[type="submit"] {
-                border-radius: 4vw;
+                border-radius: 3.2vw;
             }
             #loginForm > input[type="submit"] {
-                margin-top: 4vw;
+                margin-top: 3.2vw;
             }
             #joinForm > input[type="text"] {
-                width: 25vw;
-                height: 5vw;
-                border: 3px solid limegreen;
-                border-radius: 4vw;
+                width: 20vw;
+                height: 4vw;
+                border: 2.4px solid limegreen;
+                border-radius: 3.2vw;
                 background: rgb(0, 37, 0);
                 text-align: center;
-                font-size: 20px;
+                font-size: 16px;
             }
             #account {
                 position: absolute;
@@ -189,52 +189,52 @@
                 top: 0;
                 overflow: hidden;
                 background-color: #161619;
-                margin: 10px;
-                border: 2px solid cyan;
-                border-radius: 10px;
-                width: 105px;
-                height: 105px;
+                margin: 8px;
+                border: 1.6px solid cyan;
+                border-radius: 8px;
+                width: 84px;
+                height: 84px;
                 cursor: pointer;
                 transition: width 0.2s cubic-bezier(0.45, 0.05, 0.55, 0.95), height 0.2s cubic-bezier(0.45, 0.05, 0.55, 0.95);
                 white-space: nowrap;
                 overflow: hidden;
             }
             #account:hover {
-                width: 400px;
+                width: 320px;
             }
             #accountHead {
                 display: flex;
                 background-color: #1e1e20;
-                margin: 10px;
-                border-radius: 10px;
+                margin: 8px;
+                border-radius: 8px;
                 white-space: nowrap;
                 overflow: hidden;
             }
             #accountHead > img {
-                height: 85px;
+                height: 68px;
                 border-radius: 10%;
             }
             #accountHead > div {
-                height: 65px;
+                height: 52px;
                 align-items: center;
                 display: flex;
-                margin: 10px 20px;
-                width: 255px;
+                margin: 8px 16px;
+                width: 204px;
                 white-space: nowrap;
-                font-size: 32px;
+                font-size: 25.6px;
                 overflow: hidden;
             }
             #accountMenu > p {
-                font-size: 26px;
-                margin: 20px;
+                font-size: 20.8px;
+                margin: 16px;
             }
             #myRooms {
-                width: 350px;
-                margin: 15px;
+                width: 280px;
+                margin: 12px;
                 background-color: black;
-                padding: 10px;
-                height: 240px;
-                border-radius: 10px;
+                padding: 8px;
+                height: 192px;
+                border-radius: 8px;
                 overflow-x: hidden;
                 overflow-y:auto;
             }
@@ -250,7 +250,7 @@
                 color: black;
             }
             div.buttons {
-                margin: 15px;
+                margin: 12px;
                 display: ruby-text;
             }
             button#profileChange {
@@ -270,12 +270,12 @@
                 border-color: white !important
             }
             #editProfile {
-                width: 350px;
-                margin: 15px;
+                width: 280px;
+                margin: 12px;
                 background-color: black;
-                padding: 10px;
-                height: 240px;
-                border-radius: 10px;
+                padding: 8px;
+                height: 192px;
+                border-radius: 8px;
                 overflow-x: hidden;
                 overflow-y:auto;
                 display: none;
@@ -286,14 +286,14 @@
                 overflow-y: hidden;
                 display: flex;
                 background-color: #2e2e30;
-                height: 68px;
-                width: 350px;
+                height: 54.4px;
+                width: 280px;
                 border-radius: 2.5px;
             }
             #dpSelect > label, #chooseDP > label {
-                margin: 4px 6px;
-                height: 55px;
-                width: 55px;
+                margin: 3.2px 4.8px;
+                height: 44px;
+                width: 44px;
                 display: inline-flex;
                 align-items: flex-end;
                 background-color: #0000;
@@ -305,31 +305,32 @@
                 flex-wrap: wrap;
                 flex-direction: row;
                 justify-content: space-between;
+                font-size: 0.8em;
             }
             #Names > label {
-                width: 118px;
+                width: 94.4px;
             }
 
             #pwdChange > input {
-                width: 317px;
+                width: 253.6px;
             }
             input[type=radio] + img {
                 cursor: pointer;
                 background-color: #161619;
                 border-radius: 50%;
-                height: 50px;
-                border: 2px solid white;
+                height: 40px;
+                border: 1.6px solid white;
             }
             input[type=radio]:checked + img {
-                border: 2px solid rgb(0, 67, 67);
+                border: 1.6px solid rgb(0, 67, 67);
                 background-color: #00a1e8;
             }
             input[type=radio] ~ img.check {
                 position: relative;
-                width: 25px;
-                height: 25px;
+                width: 20px;
+                height: 20px;
                 bottom: 0px;
-                right: 15px;
+                right: 12px;
                 background-color: rgb(0, 67, 67);
                 border-radius: 50%;
                 display: none;
@@ -614,8 +615,8 @@
             }
             accountDiv.addEventListener('click', function(e) {
                 if(e.target.id === backBTN.id) return;
-                this.style.height = "500px";
-                this.style.width = "400px";
+                this.style.height = "400px";
+                this.style.width = "320px";
                 this.style.cursor = "default";
                 this.style.transition = "width 0.2s cubic-bezier(0.45, 0.05, 0.55, 0.95), height 0.2s cubic-bezier(0.45, 0.05, 0.55, 0.95)"
             })
