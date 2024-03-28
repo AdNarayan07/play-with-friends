@@ -1,0 +1,97 @@
+.main{
+    display: block !important;
+}
+#gamesDiv, #LSbuttons, #LSforms, #roomsDiv {
+    display: ruby-text;
+    width: 59.6vw;
+    padding: 5.6vw;
+    background: #22040469;
+    margin: 4vw auto;
+    border-radius: 32px;
+    border: 1.6px solid;
+    backdrop-filter: blur(2.4px);
+}
+#roomsDiv > form {
+    display: grid;
+    align-content: space-between;
+    justify-content: space-between;
+    align-items: center;
+    justify-items: center;
+}
+#createRoom > input[type="submit"], #loginForm > input[type="submit"] {
+    background: teal;
+    border-color: aqua;
+    height: 2.8vw;
+    width: 11.2vw;
+}
+#createRoom > input[type="text"] {
+    width: 20vw;
+    height: 4vw;
+    border: 2.4px solid aqua;
+    border-radius: 3.2vw;
+    background: #012828;
+    text-align: center;
+    font-size: 16px;
+}
+#joinForm > input[type="submit"], #signupForm > input[type="submit"] {
+    background: rgb(1, 110, 30);
+    border-color: limegreen;
+    height: 2.8vw;
+    width: 11.2vw;
+}
+#signupForm > input[type="submit"] {
+    border-radius: 3.2vw;
+}
+#loginForm > input[type="submit"] {
+    margin-top: 3.2vw;
+}
+#joinForm > input[type="text"] {
+    width: 20vw;
+    height: 4vw;
+    border: 2.4px solid limegreen;
+    border-radius: 3.2vw;
+    background: rgb(0, 37, 0);
+    text-align: center;
+    font-size: 16px;
+}
+#accountMenu > p {
+    font-size: 20.8px;
+    margin: 16px;
+}
+#myRooms {
+    width: 280px;
+    margin: 12px;
+    background-color: black;
+    padding: 8px;
+    height: 234px;
+    border-radius: 8px;
+    overflow-x: hidden;
+    overflow-y:auto;
+}
+input[type="submit"], button {
+    height: 32px;
+    border-radius: 16px;
+    width: 120px;
+    border: solid 2px;
+    font-weight: bold;
+    font-size: 13.6px;
+}
+input[type="text"], input[type="password"] {
+    background: #13131b;
+    color: aliceblue;
+    border: 0.8px solid aliceblue;
+    margin: 4px;
+    border-radius: 8px;
+    padding: 3.2px 8px;
+}
+li, ul > a {
+    color: #00a1e8;
+    white-space: normal;
+}
+h3 {
+    background: url(/assets/images/HeadingBG.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    color: black;
+}

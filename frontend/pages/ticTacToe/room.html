@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <link rel="stylesheet" type="text/css" href="/ticTacToe/assets/styles.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/universal.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/camanjs/4.1.2/caman.full.min.js"></script>
+</head>
+<body>
+<img src="/ticTacToe/assets/bg.svg">
+<div class="header">
+    <a href="/"><button class="home">🏠︎</button></a>
+    <h1>Fun Place</h1>
+    <div id = "account">
+        <div id = "accountHead"></div>
+    </div>
+</div>
+<div class="main">
+    <div class="gameSpace">
+        <div id="gameDiv">
+            <header></header>
+            <canvas id="gameCanvas" width="300" height="300"></canvas>
+            <footer></footer>
+        </div>
+        <div id="startGame"></div>
+    </div>
+    <div id="messageContainer">
+        <div id="message"></div>
+        <form id="messageBox">
+            <input type="text" placeholder="Type message...">
+            <input type="submit" value="➤">
+        </form>
+    </div>
+    <div id="users"></div>
+</div>
+<script src="/assets/js/universal_functions.js"></script>
+<script src="/ticTacToe/assets/game.js"></script>
+</body>
+</html>

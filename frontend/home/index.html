@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style></style>
+        <title>
+            Chat App
+        </title>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/uuid@8.3.2/dist/umd/uuidv4.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="assets/css/home.css">
+        <link rel="stylesheet" type="text/css" href="assets/css/main.css">
+        <link rel="stylesheet" type="text/css" href="assets/css/universal.css">
+    </head>
+    <body>
+        <img src="assets/images/body-background.jpg">
+        <div class="header">
+            <a href="/"><button class="home">🏠︎</button></a>
+            <h1>Fun Place</h1>
+            <div id = "account">
+                <div id = "accountHead"></div>
+                <div id = "accountMenu">
+                    <p></p>
+                    <div id="myRooms">
+                        <h3>My rooms</h3>
+                        <ul></ul><p style='text-align:center'></p>
+                    </div>
+                    <div id="editProfile">
+                        <form>
+                            <div id="dpSelect"></div>
+                            <div id="Names"></div>
+                            <div id="pwdChange">
+                                <input placeholder="Enter new password if you want to reset" type="password" autocomplete="new-password"><br>
+                                <input placeholder="Enter the new password again" type="password" autocomplete="new-password"></div>
+                        </form>
+                    </div>
+                    <div class="buttons">
+                        <button id="profileChange">Edit Profile</button>
+                        <button id="saveChange">Save Changes</button>
+                        <button id="logout">Logout</button>
+                        <button id="backEditProf" style="display: none;">Back</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="main">
+            <div id="LSbuttons" style="display: none;">
+                <button id="loginBTN">Login</button>
+                <button id="signupBTN">Sign Up</button>
+            </div>
+            <div id="LSforms" style="display: none;">
+                <form id="loginForm" style="display: none;">
+                    <input type="text" placeholder="Enter username" required autocomplete="username">
+                    <input type="password" placeholder="Enter Password" required autocomplete="current-password">
+                    <input type="submit" value="Login">
+                </form>
+                <form id="signupForm" style="display: none;">
+                    <div id="chooseDP"></div>
+                    <div id="otherData">
+                        <input type="text" placeholder="Your Username" required autocomplete="username">
+                        <input type="text" placeholder="Your Display Name" required autocomplete="name">
+                        <input type="password" placeholder="Create Password" required autocomplete="new-password">
+                        <input type="password" placeholder="Re-enter Password" required autocomplete="new-password">
+                    </div>
+                    <input type="submit" value="Sign Up">
+                </form>
+            </div>
+            <div id="gamesDiv">
+                <a href="/ticTacToe"><div>TicTacToe</div></a>
+            </div>
+        </div>
+        <script src="assets/js/universal_functions.js"></script>
+        <script src="assets/js/script.js"></script>
+    </body>
+</html>

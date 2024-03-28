@@ -1,0 +1,134 @@
+#myRooms{
+    height: 192px;
+}
+#LSbuttons > button {
+    height: 6.8vw;
+    width: 22.4vw;
+    font-size: 24px;
+}
+#loginBTN {
+    background: teal;
+    border-color: aqua;
+}
+#signupBTN{
+    background: rgb(1, 110, 30);
+    border-color: limegreen;
+}
+#LSforms {
+    padding: 3.2vw;
+}
+#signupForm, #loginForm{
+    flex-direction: column;
+    align-items: center;
+}
+#chooseDP{
+    background: #ffd7002e;
+    padding: 7.2px;
+    border-radius: 36px;
+    backdrop-filter: blur(2.4px);
+    margin: auto;
+    overflow-x: auto;
+    overflow-y: hidden;
+    max-width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+#otherData {
+    margin: 3.2vw;
+    width: 44vw;
+}
+#otherData > input, #loginForm > input {
+    width: 100%;
+    height: 1.6vw;
+    border: 1.6px solid aliceblue;
+    border-radius: 4vw;
+    background: #000f00ba;
+    text-align: center;
+    font-size: 16px;
+}
+#loginForm > input {
+    background: #002828b3;
+    width: 44vw;
+}
+div.buttons {
+    margin: 12px;
+    display: ruby-text;
+}
+button#profileChange {
+    background: teal;
+    border-color: aqua;
+}
+button#saveChange {
+    display: none;
+    background: rgb(1, 110, 30);
+    border-color: limegreen;
+}
+#editProfile {
+    width: 280px;
+    margin: 12px;
+    background-color: black;
+    padding: 8px;
+    height: 192px;
+    border-radius: 8px;
+    overflow-x: hidden;
+    overflow-y:auto;
+    display: none;
+}
+#dpSelect {
+    margin: auto;
+    overflow-x: auto;
+    overflow-y: hidden;
+    display: flex;
+    background-color: #2e2e30;
+    height: 54.4px;
+    width: 280px;
+    border-radius: 2.5px;
+}
+#dpSelect > label, #chooseDP > label {
+    margin: 3.2px 4.8px;
+    height: 44px;
+    width: 44px;
+    display: inline-flex;
+    align-items: flex-end;
+    background-color: #0000;
+}
+#Names {
+    display: flex;
+    align-items: center;
+    align-content: space-between;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between;
+    font-size: 0.8em;
+}
+#Names > label {
+    width: 94.4px;
+}
+
+#pwdChange > input {
+    width: 253.6px;
+}
+input[type=radio] + img {
+    cursor: pointer;
+    background-color: #161619;
+    border-radius: 50%;
+    height: 40px;
+    border: 1.6px solid white;
+}
+input[type=radio]:checked + img {
+    border: 1.6px solid rgb(0, 67, 67);
+    background-color: #00a1e8;
+}
+input[type=radio] ~ img.check {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    bottom: 0px;
+    right: 12px;
+    background-color: rgb(0, 67, 67);
+    border-radius: 50%;
+    display: none;
+}
+input[type=radio]:checked ~ img.check {
+    display: initial !important;
+}

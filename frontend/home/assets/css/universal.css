@@ -1,0 +1,272 @@
+::-webkit-scrollbar {
+    background-color: #0000;
+    width: 4px;
+    height: 4px;
+}
+::-webkit-scrollbar-thumb {
+    background-color: #def;
+    border-radius: 2px;
+}
+::-webkit-scrollbar-corner {
+    background-color: #0000;
+}
+body {
+    font-family: cursive;
+    background-color: black;
+    color: aliceblue;
+}
+body > img {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    opacity: 0.15;
+    min-width: 100vw;
+    min-height: 100vh;
+}
+h1 {
+    font-size: 33.6px;
+}
+h2 {
+    font-size: 25.6px;
+}
+h2, h3, h1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+input, button {
+    font-family: inherit;
+    font-size: 0.8em;
+}
+input[type="submit"], button {
+    color: aliceblue;
+    cursor: pointer;
+}
+.header{
+    height: 100px;
+    width: 100vw;
+    top: 0;
+    left: 0;
+    position: fixed;
+    background: #ffd7002e;
+    backdrop-filter: blur(2.4px);
+    border-bottom: 1.6px solid;
+    z-index: 1;
+}
+button.home{   
+    position: absolute;
+    width: 69.6px;
+    height: 69.6px;
+    background-color: #3400008c;
+    margin: 16px;
+    border-radius: 50%;
+    font-size: 24px;
+    border: 2px solid;
+}
+#account {
+    position: absolute;
+    right: 0;
+    top: 0;
+    overflow: hidden;
+    background-color: #161619;
+    margin: 8px;
+    border: 1.6px solid cyan;
+    border-radius: 8px;
+    width: 84px;
+    height: 84px;
+    cursor: pointer;
+    transition: width 0.2s cubic-bezier(0.45, 0.05, 0.55, 0.95), height 0.2s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+    white-space: nowrap;
+    overflow: hidden;
+}
+#account:hover {
+    width: 320px;
+}
+#accountHead {
+    display: flex;
+    background-color: #1e1e20;
+    margin: 8px;
+    border-radius: 8px;
+    white-space: nowrap;
+    overflow: hidden;
+}
+#accountHead > img {
+    height: 68px;
+    border-radius: 10%;
+}
+#accountHead > div {
+    height: 52px;
+    align-items: center;
+    display: flex;
+    margin: 8px 16px;
+    width: 204px;
+    white-space: nowrap;
+    font-size: 25.6px;
+    overflow: hidden;
+}
+button#deleteRoom, button.deleteRoom{
+    border-radius: 3vw;
+    border: 2px solid;
+    font-weight: bold;
+    height: 10%;
+    width: 18vw;
+}
+button.deleteRoom{
+    visibility: hidden;
+}
+button:hover, input[type="submit"]:hover {
+    border-color: white !important
+}
+.main{
+    width: 96vw;
+    left: 0;
+    top: 100px;
+    position: fixed;
+    display: flex;
+    justify-content: space-between;
+    margin: 2vw;
+}
+div.gameSpace{
+    height: 35vw;
+}
+div.gameSpace > div {
+    position: absolute;
+}
+div#messageContainer, div#users{
+    height: 33vw;
+    background: #22040469;
+    backdrop-filter: blur(2.4px);
+    padding: 1vw;
+    border: 2px solid;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+div#users > h3{
+    margin: 0;
+    height: 9%;
+    background: url(/assets/images/HeadingBG.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    color: black;
+    border-radius: 3vw;
+}
+div#users > ul {
+    overflow: scroll;
+    word-wrap: break-word;
+    height: 70%;
+    margin: 1.65vw 0;
+}
+div#message{
+    height: 90%;
+    overflow: scroll;
+    padding-bottom: 4px;
+}
+form#messageBox{
+    height: 10%;
+    display: flex;
+    justify-content: space-between;
+}
+form#messageBox > input[type="text"]{
+    width: -webkit-fill-available;
+    background: #000b0e;
+    border: none;
+    border-radius: 47px;
+    margin-right: 5px;
+    box-shadow: #fff4 0 0 2px 2px;
+    padding: 0 15px;
+    color: aliceblue;
+}
+form#messageBox > input[type="submit"]{
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: none;
+    background-color: #000b0e;
+	box-shadow:#fff4 0 0 2px 2px;
+}
+.msg-container{
+	margin-top: 4px;
+    display: flex;
+}
+.more-margin{
+	margin-top: 10px;
+}
+.msg-container > img {
+    height:38px;
+    width: 38px;
+    border-radius: 50%;
+    box-shadow: #fff4 0 0 4px 2px;
+    margin: 0 5px;
+}
+.msg{
+	padding: 5px 10px;
+	position:relative;
+	border-radius: 10px 10px 10px 10px;
+	max-width: 70%;
+    word-wrap: break-word;
+}
+.bubble{
+	&:after{
+		content: '';
+		display: block;
+		width: 0;
+		height: 0;
+		border-style: solid;
+		position: absolute;
+		top:0px;
+		border-color: transparent;
+	}
+}
+.left{
+	background: #131313;
+	box-shadow:#fff4 2px 2px 2px;
+	margin-left: 5px;
+	margin-right: auto;
+	&:after{
+		border-width: 0 18px 15px 0;
+		left:-10px;
+		border-right-color: #131313 !important;
+	}
+    & > span{
+        color: #ff9c9c;
+        text-align: left;
+    }
+    & > img{
+        background: #131313;
+    }
+}
+.right{
+	background: #002530;
+	box-shadow:#fff4 -2px 2px 2px;
+	margin-right: 5px;
+	margin-left: auto;
+	&:after{
+		border-width: 0 0 15px 18px;
+		border-left-color: #002530 !important;
+		right:-10px;
+	}
+    & > span{
+        color: #00c5ff;
+        text-align: right;
+    }
+    & > img{
+        background: #002530;
+    }
+}
+.msg > span {
+    display: block;
+    font-size: 0.8em;
+}
+.date, .time {
+    font-size: 0.8em;
+    color: #6e6e75;
+}
+.date {
+    font-size: 0.6em;
+}
+button#logout, button#backEditProf, button#deleteRoom {
+    background: maroon;
+    border-color: crimson;
+}

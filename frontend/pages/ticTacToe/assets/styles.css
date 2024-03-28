@@ -1,0 +1,73 @@
+#gameDiv, #startGame{
+    display: flex;
+    width: 35vw;
+    height: 35vw;
+    background: #22040469;
+    border-radius: 10px;
+    border: 1.6px solid;
+    flex-direction: column;
+    align-items: center;
+    backdrop-filter: blur(2.4px);
+}
+#startGame{
+    justify-content: center;
+    cursor: pointer;
+}
+#startGame > p {
+    font-size: 4vw;
+    font-weight: bold;
+    text-align: center;
+    background-image: linear-gradient(to right, cyan, #ffa200);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: -0.2vw -0.2vw 0px black, -0.28vw -0.28vw 0px aliceblue;
+    padding: 0 2vw;
+    border: 0 solid;
+    border-radius: 10vw;
+}
+#gameDiv > footer, #gameDiv > header {
+    position: relative;
+    height: 21%;
+    width: -webkit-fill-available;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0 16%;
+    font-size: 1em;
+}
+#gameDiv > footer {
+    justify-content: flex-end
+}
+header > img, footer > img {
+    width: 3vw;
+    height: 3vw;
+    background: black;
+    border-radius: 50%;
+    border: 1px solid;
+    padding: 2px;
+}
+header > span, footer > span {
+    background: black;
+    border-radius: 5px;
+    padding: 2px 10px;
+    border: 1px solid;
+    margin-left: 5px;
+}
+#gameCanvas {
+    border: 0.4vw solid white;
+    border-radius: 2vw;
+    position: relative;
+    margin: auto;
+    cursor: cell;
+    background-color: #232323bf;
+}
+.gameSpace{
+    width: 35vw;
+}
+#messageContainer{
+    width: 30vw;
+}
+#users{
+    width: 18vw;
+}

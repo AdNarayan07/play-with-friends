@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style></style>
+        <title>
+            Chat App
+        </title>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/uuid@8.3.2/dist/umd/uuidv4.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="assets/css/home.css">
+        <link rel="stylesheet" type="text/css" href="assets/css/universal.css">
+    </head>
+    <body>
+        <img src="/ticTacToe/assets/bg.svg">
+        <div class="header">
+            <a href="/"><button class="home">🏠︎</button></a>
+            <h1>Fun Place</h1>
+            <div id = "account">
+                <div id = "accountHead"></div>
+                <div id = "accountMenu">
+                    <p></p>
+                    <div id="myRooms">
+                        <h3>My rooms</h3>
+                        <ul></ul><p style='text-align:center'></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="main">
+            <div id="roomsDiv">
+                <h1>Tic Tac Toe</h1><br><br>
+                <form id="createRoom">
+                    <input type="text" placeholder="Enter a custom Room Name">
+                    <input type="submit" value="Create Room">
+                </form>
+                <p>OR</p>
+                <form id="joinForm">
+                    <input type="text" placeholder="Enter Room ID">
+                    <input type="submit" value="Join Room">
+                </form>
+            </div>
+        </div>
+        <script src="assets/js/universal_functions.js"></script>
+        <script src="/ticTacToe/assets/script.js"></script>
+    </body>
+</html>
