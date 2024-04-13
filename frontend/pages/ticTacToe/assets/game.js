@@ -3,7 +3,7 @@ const socket = io();
 const user = localStorage.getItem('user')
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
-
+const startGame = document.getElementById('startGame')
 const roomID = urlParams.get('id')
 let gameBoard = [[],[],[]]
 const canvas = document.getElementById('gameCanvas');
@@ -27,34 +27,18 @@ const tieSound = new Audio('/assets/sounds/tie.mp3')
 const connectSound = new Audio('/assets/sounds/connect.mp3')
 const disconnectSound = new Audio('/assets/sounds/disconnect.mp3')
 
-socket.on('connect', () => {
-    if(!user) return location.href = '/'
-    socket.emit('joinRoom', { user, roomID })
-})
-socket.on('joinResponse', (res) => {
-    console.log(res)
-    if(!res.status) handleJoinError(res, socket) 
-    else {
-    const { users, game, admin, messages } = res.data
-    gameBoard = game.board[0] ? game.board : [[],[],[]]
-    updateOnline(users, admin)
-    document.getElementById('accountHead').innerHTML = `<img src="/assets/DPs/${res.sender.data.dp}"><div>${res.sender.data.displayName}</div>`
-    const data = {
-        type: 'ticTacToe',
-        input: 'playerJoined',
-        roomID,
-        user
-    }
-    if(res.sender.id === socket.id) socket.emit('roomInput', data)
-    
-    drawBoard(gameBoard)
+socket.on('connect', connectRoom)
+socket.on('joinResponse', (res) => joinResponse(res, 'ticTacToe'))
+socket.on('playerAdded', ({ users, game, display }) => {  
+    const { players, gameActive, currentPlayer, board } = game
+    gameBoard = board[0] ? board : [[],[],[]]
     let opponentId; let playerId;
-    let xName = res.display[game.players.x]?.name || game.players.x || "Player"
-    let oName = res.display[game.players.o]?.name || game.players.o || "Player"
-    let xDP = res.display[game.players.x]?.dp || 'default.png'
-    let oDP = res.display[game.players.o]?.dp || "default.png"
+    let xName = display[players.x]?.name || players.x || "Player"
+    let oName = display[players.o]?.name || players.o || "Player"
+    let xDP = display[players.x]?.dp || 'default.png'
+    let oDP = display[players.o]?.dp || "default.png"
 
-    if(game.players.x === user) {
+    if(players.x === user) {
         playerId = 'x'
         opponentId = 'o'
     } else {
@@ -65,22 +49,12 @@ socket.on('joinResponse', (res) => {
     document.querySelector("#gameDiv > footer").id = playerId
     document.querySelector("#gameDiv > header").id = opponentId
     document.querySelector("#x").innerHTML = `<img src="/assets/DPs/${xDP}" style="color:${colors.x.main}"><span style="color:${colors.x.main}">${xName}</span>`
-    document.querySelector("#x").style.opacity = users.includes( game.players.x) ? 1 : 0.4
+    document.querySelector("#x").style.opacity = users.includes( players.x) ? 1 : 0.4
     document.querySelector("#o").innerHTML = `<img src="/assets/DPs/${oDP}" style="color:${colors.o.main}"><span style="color:${colors.o.main}">${oName}</span>`
-    document.querySelector("#o").style.opacity = users.includes(game.players.o) ? 1 : 0.4
-    resizeCanvas()
-    if(socket.id !== res.sender.id) return console.log('no need to add the messages');
-    document.getElementById("message").innerHTML = ""
-    let prevUser;
-    messages.forEach((msg)=> {
-        bubble = prevUser === msg.author ? '' : 'bubble'
-        displayMessage(msg, bubble, user === msg.author)
-        prevUser = msg.author
-    })
-    }
-})
-socket.on('playerAdded', ({ players, users, gameActive, currentPlayer }) => {
+    document.querySelector("#o").style.opacity = users.includes(players.o) ? 1 : 0.4
+
     console.log("plaerAdded")
+    resizeCanvas()
     gamePlayers = players
     currentGamePlayer = currentPlayer
     console.log(gamePlayers)
@@ -88,18 +62,18 @@ socket.on('playerAdded', ({ players, users, gameActive, currentPlayer }) => {
         const emptyBoard = gameBoard.every(row => row.every(value => !value));
         console.log(players, users, gameActive)
         if(users.includes(gamePlayers.x) && users.includes(gamePlayers.o) && gameActive && !emptyBoard) {
-            document.getElementById('startGame').style.display = 'none'
+            startGame.style.display = 'none'
             canvas.style.backgroundColor = colors[currentGamePlayer].bg
             playerActive = gamePlayers[currentGamePlayer] === user
         } else {
-            document.getElementById('startGame').style.display = ''
-            document.getElementById('startGame').style.backgroundColor = ''
+            startGame.style.display = ''
+            startGame.style.backgroundColor = ''
             playerActive = false
         }
-        document.getElementById('startGame').innerHTML = `<p>Start Game</p>`
+        startGame.innerHTML = `<p>Start Game</p>`
     }
     else if(users.length !== 2) {
-        document.getElementById('startGame').innerHTML = `<p>Waiting for opponent...</p>`
+        startGame.innerHTML = `<p>Waiting for opponent...</p>`
     }
     connectSound.play()
 })
@@ -111,7 +85,7 @@ socket.on('startGame', ({ players, board, display, currentPlayer }) => {
     playerActive = gamePlayers.x === user
     console.log('resetGame')
     currentGamePlayer = currentPlayer;
-    document.getElementById('startGame').style.display = 'none'
+    startGame.style.display = 'none'
 
     let hfTags = []
     if(players.x === user) hfTags = [`<img src="/assets/DPs/${display[players.x]?.dp}" style="color:${colors.x.main}"><span style="color:${colors.x.main}">${display[players.x]?.name || players.x}</span>`, `<img src="/assets/DPs/${display[players.o]?.dp}" style="color:${colors.o.main}"><span style="color:${colors.o.main}">${display[players.o]?.name || players.o}</span>`]
@@ -141,22 +115,22 @@ socket.on('moveResponse', ({ currentPlayer, board }) => {
 
 socket.on('result', ({winner, board}) => {
     playerActive = false
-    document.getElementById('startGame').style.display = ""
+    startGame.style.display = ""
     canvas.style.backgroundColor = colors[winner]?.bg || ''
     drawBoard(board)
     let message;
     if(winner === 'tie') {
         message = "Match Tied!"
-        document.getElementById('startGame').style.backgroundColor = ''
-        document.getElementById('startGame').style.backgroundImage = ''
+        startGame.style.backgroundColor = ''
+        startGame.style.backgroundImage = ''
         tieSound.play()
     } else {
         message = gamePlayers[winner] + " Won!"
-        document.getElementById('startGame').style.backgroundColor = colors[winner]?.bg
-        document.getElementById('startGame').style.backgroundImage = 'url(/assets/images/win.gif)'
+        startGame.style.backgroundColor = colors[winner]?.bg
+        startGame.style.backgroundImage = 'url(/assets/images/win.gif)'
         winSound.play()
     }
-    document.getElementById('startGame').innerHTML = `<p><span style="font-size: 0.8em">${message}</span><br>Click to Restart!</p>`
+    startGame.innerHTML = `<p><span style="font-size: 0.8em">${message}</span><br>Click to Restart!</p>`
 })
 socket.on('messageReceived', (msg)=> {
     const prevMsg = document.querySelectorAll('.msg-container > .msg')
@@ -172,9 +146,9 @@ socket.on('disconnectResponse', (res) => {
       console.log(res)
       const { users, admin, } = res.data
       updateOnline(users, admin)
-      document.getElementById('startGame').style.display = ''
-      document.getElementById('startGame').style.backgroundImage = ''
-      document.getElementById('startGame').innerHTML = `<p><span style="font-size: 0.8em">Opponent disconnected...</span><br>Game Over</p>`
+      startGame.style.display = ''
+      startGame.style.backgroundImage = ''
+      startGame.innerHTML = `<p><span style="font-size: 0.8em">Opponent disconnected...</span><br>Game Over</p>`
       canvas.style.backgroundColor = "#232323bf"
       disconnectSound.play()
     }
@@ -199,14 +173,18 @@ canvas.addEventListener('click', (event) => {
     gameInput(x, y, cellSize)
 })
 document.addEventListener('keypress', function(e) {
-    if(e.code.startsWith('Numpad')){
-        const cellSize = canvas.width / 3;
-        const map = {1: [0, 2], 2:[1, 2], 3:[2, 2], 4:[0, 1], 5: [1, 1], 6: [2, 1], 7:[0, 0], 8:[1, 0], 9:[2, 0]}
-        const key = e.code.split('Numpad')[1]
-        gameInput(map[key][0], map[key][1], cellSize)
-    }
+    if(document.activeElement === document.querySelector('input[type="text"]')) return
+        if(e.code.startsWith('Numpad')){
+            const cellSize = canvas.width / 3;
+            const map = {1: [0, 2], 2:[1, 2], 3:[2, 2], 4:[0, 1], 5: [1, 1], 6: [2, 1], 7:[0, 0], 8:[1, 0], 9:[2, 0]}
+            const key = e.code.split('Numpad')[1]
+            gameInput(map[key][0], map[key][1], cellSize)
+        }
+        if(e.code === "Space") {
+            if(startGame.style.display !== "none") startGame.click()
+        }
 })
-document.getElementById('startGame').addEventListener('click', (e)=>{
+startGame.addEventListener('click', (e)=>{
     const data = {
         type: 'ticTacToe',
         input: 'resetGame',
@@ -310,7 +288,7 @@ function cutLine(board, winner){
         return null
     }
 }
-async function gameInput(x, y, cellSize){
+function gameInput(x, y, cellSize){
     console.log(playerActive)
     if(!playerActive || gameBoard[x]?.[y] !== null) return;
     playerActive = false
@@ -331,7 +309,6 @@ async function gameInput(x, y, cellSize){
     ctx.globalAlpha = 0.2;
     ctx.drawImage(image, x, y, cellSize, cellSize)
     ctx.restore()
-    sleep(1000)
     socket.emit('roomInput', data)
 }
 function checkWinner(board) {

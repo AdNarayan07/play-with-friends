@@ -1,6 +1,16 @@
 const backBTN = document.getElementById('backEditProf')
 const accountDiv = document.getElementById('account')
 
+function shuffle(array) {
+    let currentIndex = array.length;
+  
+    while (currentIndex != 0) {
+      let randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+      [array[currentIndex], array[randomIndex]] = [
+        array[randomIndex], array[currentIndex]];
+    }
+}
 function sleep(milliseconds) {
     return new Promise(resolve => {
         setTimeout(resolve, milliseconds);
@@ -14,7 +24,6 @@ function updateOnline(users, admin) {
     userDiv.innerHTML = "<h3>Online Users</h3><ul></ul>"
 
     users.forEach((user)=>{
-        console.log(gamePlayers)
     document.querySelector('#users > ul').innerHTML += '<li>' + user + '</li>'
     })
     if(user === admin) userDiv.innerHTML += `<button id="deleteRoom" onclick="deleteRoom()">Delete Room</button>`
@@ -23,16 +32,18 @@ function updateOnline(users, admin) {
 function handleJoinError(res, socket) {
     console.log(res.sender, socket.id)
     if(socket.id !== res.sender) return;
+    var currentPath = window.location.pathname;
+    window.location.pathname = currentPath.split('/')[0]
     if(res.optional) {
         const choice = window.confirm(res.error)
-        if(choice) return location.href = '/' + res.parent
+        if(choice) return location.href = newUrl
         else {
             socket.emit('duplicateJoin', {roomID, user})
             location.reload()
         }
     } else {
         alert(res.error)
-        return location.href = '/' + res.parent
+        return window.location.href = currentPath.split('/')[0];
     }
 }
 function handleNoData(){
@@ -40,15 +51,15 @@ function handleNoData(){
     location.reload()
 }
 function displayMyRooms(rooms){
+    if(document.getElementById('myRooms')){
     if(rooms.length > 0) {
         document.querySelector('#myRooms > ul').innerHTML = ""
         rooms.forEach(room => {
-            document.querySelector('#myRooms > ul').innerHTML += `<a href="/ticTacToe/room?id=${room.id}"><li>${room.name}</li></a>`
+            document.querySelector('#myRooms > ul').innerHTML += `<a href="${location.href}/room?id=${room.id}"><li>${room.name}</li></a>`
         });
     } else {
-        document.querySelector('#myRooms > p').innerHTML = ""
-        document.querySelector('#myRooms > p').innerHTML += "No Rooms, Create One"
-    }
+        document.querySelector('#myRooms > p').innerHTML = "No Rooms, Create One"
+    }}
     document.querySelector('#accountMenu > p').innerHTML = '@' + user
 }
 function displayMessage(message, bubble, isAuthor) {
@@ -103,11 +114,12 @@ document.onkeydown = (e)=>{
 
 if(accountDiv){
     accountDiv.addEventListener('click', function(e) {
-        if(e.target.id === backBTN?.id) return;
-        this.style.height = "400px";
-        this.style.width = "320px";
-        this.style.cursor = "default";
-        this.style.transition = "width 0.2s cubic-bezier(0.45, 0.05, 0.55, 0.95), height 0.2s cubic-bezier(0.45, 0.05, 0.55, 0.95)"
+        if(accountDiv.classList.contains('expandable')){
+            if(e.target.id === backBTN?.id) return;
+            this.style.height = "400px";
+            this.style.width = "320px";
+            this.style.cursor = "default";
+            this.style.transition = "width 0.2s cubic-bezier(0.45, 0.05, 0.55, 0.95), height 0.2s cubic-bezier(0.45, 0.05, 0.55, 0.95)"}
     })
     
     document.addEventListener('click', async (e) => {
@@ -123,4 +135,36 @@ if(accountDiv){
         await sleep(500)
         if(backBTN?.style.display !== "none") backBTN?.click()
     })
+}
+
+const connectRoom = () => {
+    if(!user) return location.href = '/'
+    console.log("abkdbggc")
+    socket.emit('joinRoom', { user, roomID })
+}
+const joinResponse = (res, room) => {
+    console.log(res)
+    if(!res.status) handleJoinError(res, socket) 
+    else {
+    const { users, admin, messages } = res.data
+    updateOnline(users, admin)
+    console.log(res.sender.id, socket.id)
+    if(res.sender.id === socket.id) document.getElementById('accountHead').innerHTML = `<img src="/assets/DPs/${res.sender.data.dp}"><div>${res.sender.data.displayName}</div>`
+    const data = {
+        type: room,
+        input: 'playerJoined',
+        roomID,
+        user
+    }
+    if(res.sender.id === socket.id) socket.emit('roomInput', data)
+
+    if(socket.id !== res.sender.id) return console.log('no need to add the messages');
+    document.getElementById("message").innerHTML = ""
+    let prevUser;
+    messages.forEach((msg)=> {
+        bubble = prevUser === msg.author ? '' : 'bubble'
+        displayMessage(msg, bubble, user === msg.author)
+        prevUser = msg.author
+    })
+    }
 }

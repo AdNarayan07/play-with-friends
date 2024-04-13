@@ -4,12 +4,14 @@
 #gamesDiv, #LSbuttons, #LSforms, #roomsDiv {
     display: ruby-text;
     width: 59.6vw;
-    padding: 5.6vw;
+    padding: 10vh;
     background: #22040469;
-    margin: 4vw auto;
+    margin: 7vh auto;
     border-radius: 32px;
     border: 1.6px solid;
     backdrop-filter: blur(2.4px);
+    max-height: 65vh;
+    overflow: auto;
 }
 #roomsDiv > form {
     display: grid;

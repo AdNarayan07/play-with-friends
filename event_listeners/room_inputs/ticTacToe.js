@@ -6,7 +6,11 @@ module.exports = ({data, io})=>{
     if(!roomdata[roomID]?.game) return console.log('no parent game or roomID')
     
     if(input === "playerJoined") {
-        io.to(roomID).emit('playerAdded', { players: roomdata[roomID]?.game.players, users: roomdata[roomID].users, gameActive: roomdata[roomID]?.game.active, currentPlayer: roomdata[roomID]?.game.currentPlayer })
+        const display = {
+            [roomdata[roomID]?.game?.players?.x]:{ dp: userdata[roomdata[roomID]?.game?.players?.x]?.dp, name: userdata[roomdata[roomID]?.game?.players?.x]?.displayName},
+            [roomdata[roomID]?.game?.players?.o]:{ dp: userdata[roomdata[roomID]?.game?.players?.o]?.dp, name: userdata[roomdata[roomID]?.game?.players?.o]?.displayName}
+        }
+        io.to(roomID).emit('playerAdded', { users: roomdata[roomID].users, game: roomdata[roomID].game, display })
     }
     if(input === "gameMove"){
         let { x, y } = coordinates

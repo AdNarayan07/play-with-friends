@@ -110,7 +110,6 @@ button#deleteRoom, button.deleteRoom{
     border: 2px solid;
     font-weight: bold;
     height: 10%;
-    width: 18vw;
 }
 button.deleteRoom{
     visibility: hidden;
@@ -124,14 +123,42 @@ button:hover, input[type="submit"]:hover {
     top: 100px;
     position: fixed;
     display: flex;
-    justify-content: space-between;
-    margin: 2vw;
+    justify-content: space-around;
+    margin: 2vh 2vw;
 }
 div.gameSpace{
     height: 35vw;
 }
 div.gameSpace > div {
     position: absolute;
+}
+#gameDiv, #startGame{
+    display: flex;
+    width: 35vw;
+    height: 35vw;
+    background: #22040469;
+    border-radius: 10px;
+    border: 1.6px solid;
+    flex-direction: column;
+    align-items: center;
+    backdrop-filter: blur(2.4px);
+}
+#startGame{
+    justify-content: center;
+    cursor: pointer;
+}
+#startGame > p {
+    font-size: 4vw;
+    font-weight: bold;
+    text-align: center;
+    background-image: linear-gradient(to right, cyan, #ffa200);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: -0.2vw -0.2vw 0px black, -0.28vw -0.28vw 0px aliceblue;
+    padding: 0 2vw;
+    border: 0 solid;
+    border-radius: 10vw;
 }
 div#messageContainer, div#users{
     height: 33vw;
@@ -269,4 +296,7 @@ form#messageBox > input[type="submit"]{
 button#logout, button#backEditProf, button#deleteRoom {
     background: maroon;
     border-color: crimson;
+}
+.invi {
+    visibility: hidden;
 }

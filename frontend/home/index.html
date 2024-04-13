@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <style></style>
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8957781533320442"
+     crossorigin="anonymous"></script>
         <title>
             Chat App
         </title>
@@ -16,7 +17,7 @@
         <div class="header">
             <a href="/"><button class="home">🏠︎</button></a>
             <h1>Fun Place</h1>
-            <div id = "account">
+            <div id = "account" class="expandable">
                 <div id = "accountHead"></div>
                 <div id = "accountMenu">
                     <p></p>
@@ -65,7 +66,18 @@
                 </form>
             </div>
             <div id="gamesDiv">
-                <a href="/ticTacToe"><div>TicTacToe</div></a>
+                <div class="row">
+                    <a href="/ticTacToe"><div class="game">
+                        <img src="/assets/gamePics/ticTacToe.svg">
+                        Tic Tac Toe
+                    </div></a>
+                    <a><div class="game invi">
+                    </div></a>
+                    <a><div class="game invi">
+                    </div></a>
+                    <a><div class="game invi">
+                    </div></a>
+                </div>
             </div>
         </div>
         <script src="assets/js/universal_functions.js"></script>

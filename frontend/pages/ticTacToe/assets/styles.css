@@ -1,31 +1,3 @@
-#gameDiv, #startGame{
-    display: flex;
-    width: 35vw;
-    height: 35vw;
-    background: #22040469;
-    border-radius: 10px;
-    border: 1.6px solid;
-    flex-direction: column;
-    align-items: center;
-    backdrop-filter: blur(2.4px);
-}
-#startGame{
-    justify-content: center;
-    cursor: pointer;
-}
-#startGame > p {
-    font-size: 4vw;
-    font-weight: bold;
-    text-align: center;
-    background-image: linear-gradient(to right, cyan, #ffa200);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    text-shadow: -0.2vw -0.2vw 0px black, -0.28vw -0.28vw 0px aliceblue;
-    padding: 0 2vw;
-    border: 0 solid;
-    border-radius: 10vw;
-}
 #gameDiv > footer, #gameDiv > header {
     position: relative;
     height: 21%;
@@ -65,8 +37,12 @@ header > span, footer > span {
 .gameSpace{
     width: 35vw;
 }
-#messageContainer{
-    width: 30vw;
+#messageContainer, .userSpace{
+    width: 27vw;
+}
+.userSpace{
+    display: flex;
+    justify-content: flex-end;
 }
 #users{
     width: 18vw;

@@ -5,16 +5,17 @@
      crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tic Tac Toe</title>
+    <title>Mickey Mouse Donald Duck</title>
     <script src="/socket.io/socket.io.js"></script>
     <link rel="stylesheet" type="text/css" href="/assets/css/universal.css">
-    <link rel="stylesheet" type="text/css" href="/ticTacToe/assets/styles.css">
+    <link rel="stylesheet" type="text/css" href="/mickeyMouseDonaldDuck/assets/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/phaser@v3.80.1/dist/phaser.min.js"></script>
 </head>
 <body>
-<img src="/ticTacToe/assets/bg.svg">
+<img src="/mickeyMouseDonaldDuck/assets/bg.svg">
 <div class="header">
     <a href="/"><button class="home">🏠︎</button></a>
-    <h1>Tic Tac Toe</h1>
+    <h1>Mickey Mouse Donald Duck</h1>
     <div id = "account">
         <div id = "accountHead"></div>
     </div>
@@ -29,9 +30,8 @@
     </div>
     <div class="gameSpace">
         <div id="gameDiv">
-            <header></header>
-            <canvas id="gameCanvas" width="300" height="300"></canvas>
-            <footer></footer>
+            <div id="gameCanvas"></div>
+            <button id="startRound">Start</button>
         </div>
         <div id="startGame"></div>
     </div>
@@ -40,6 +40,6 @@
     </div>
 </div>
 <script src="/assets/js/universal_functions.js"></script>
-<script src="/ticTacToe/assets/game.js"></script>
+<script src="/mickeyMouseDonaldDuck/assets/game.js"></script>
 </body>
 </html>

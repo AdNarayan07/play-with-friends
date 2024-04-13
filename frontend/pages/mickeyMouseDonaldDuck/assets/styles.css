@@ -1,0 +1,13 @@
+.gameSpace{
+    width: 35vw;
+}
+#messageContainer, .userSpace{
+    width: 27vw;
+}
+.userSpace{
+    display: flex;
+    justify-content: flex-end;
+}
+#users{
+    width: 18vw;
+}
