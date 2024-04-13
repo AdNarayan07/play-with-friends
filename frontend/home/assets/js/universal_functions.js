@@ -32,18 +32,16 @@ function updateOnline(users, admin) {
 function handleJoinError(res, socket) {
     console.log(res.sender, socket.id)
     if(socket.id !== res.sender) return;
-    var currentPath = window.location.pathname;
-    window.location.pathname = currentPath.split('/')[0]
     if(res.optional) {
         const choice = window.confirm(res.error)
-        if(choice) return location.href = newUrl
+        if(choice) return location.href = location.origin
         else {
             socket.emit('duplicateJoin', {roomID, user})
             location.reload()
         }
     } else {
         alert(res.error)
-        return window.location.href = currentPath.split('/')[0];
+        return window.location.href = location.origin;
     }
 }
 function handleNoData(){
