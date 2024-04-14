@@ -19,6 +19,7 @@ pages.forEach((folder) => {
     app.get('/'+ folder + '/room', (req,res) => res.sendFile(path.join(__dirname, 'frontend', 'pages', folder, 'room.html')))
     app.use('/'+ folder+ '/assets', express.static(path.join(__dirname, 'frontend', 'pages', folder, 'assets')));
 })
+app.use('/', express.static(path.join(__dirname, 'frontend', 'settings')))
 const socketUserMap = {};
 io.on('connection', function(socket){
     console.log('A user connected to Main Socket');
