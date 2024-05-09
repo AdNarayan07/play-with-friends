@@ -1,13 +1,115 @@
-.gameSpace{
-    width: 35vw;
+.gameSpace, #startGame, #gameDiv{
+    width: 45vw;
 }
-#messageContainer, .userSpace{
+#gameDiv{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+#messageContainer{
     width: 27vw;
 }
 .userSpace{
     display: flex;
     justify-content: flex-end;
+    width: 18vw;
 }
 #users{
     width: 18vw;
+}
+.playersAndTable{
+    display: flex;
+    width: calc(100% - 20px);
+    padding: 10px;
+}
+#gameCanvas {
+    width: 50%;
+}
+canvas {
+    border-radius: 10px;
+    border: 1px solid;
+}
+.players{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    justify-content: space-around;
+}
+.player{
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+}
+.card {
+    width: 80px;
+    height: 70px ;
+    background-color: black;
+    border: 1px solid;
+    border-radius: 5px;
+}
+.card > img {
+    width: 60px;
+    height: 60px;
+    margin: 5px 10px;
+}
+.info{
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+    width: 0;
+}
+.player > .info > img {
+    width: 30px;
+    border-radius: 50%;
+    border: 1px solid;
+    margin-right: 5px;
+}
+.scoreboard{
+    width: calc(100% - 20px);
+    height: -webkit-fill-available;
+    overflow: auto;
+    padding: 0 10px;
+}
+thead{
+    position: sticky;
+    top: 0;
+    background-color: black;
+}
+table {
+    width: calc(100% - 20px);
+}
+td, th {
+    border: 1px solid;
+    text-align: center;
+}
+th{
+    background-color: black;
+}
+td{
+}
+tfoot{
+    background-color: black;
+    position: sticky;
+    bottom: 0;
+}
+.players > button{
+    width: 80px;
+    margin: 0 10px;
+    background-color: black;
+    border: 1px solid;
+    border-radius: 2px;
+}
+.players > button:hover{
+    background-color: #242424;
+}
+#startGame > div > table{
+    background-color: #462d00;
+}
+#startGame > div{
+    overflow: auto;
+    width: 80%;
+}
+#startGame > p {
+    margin: 20px;
 }

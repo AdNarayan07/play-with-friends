@@ -13,7 +13,7 @@ socket.on('yourData', (data)=>{
     if(!data) return handleNoData()
     sessionStorage.setItem(user, JSON.stringify(data))
     displayMyRooms(data.rooms)
-    document.getElementById('accountHead').innerHTML = `<img src="assets/DPs/${data.dp}"><div>${data.displayName}</div>`
+    document.getElementById('accountHead').innerHTML = `<img src="/assets/DPs/${data.dp}"><div>${data.displayName}</div>`
 })
 createRoom.addEventListener('submit', (e)=>{
     e.preventDefault()

@@ -128,8 +128,9 @@ button:hover, input[type="submit"]:hover {
 }
 div.gameSpace{
     height: 35vw;
+    display: grid;
 }
-div.gameSpace > div {
+div.gameSpace > #startGame {
     position: absolute;
 }
 #gameDiv, #startGame{

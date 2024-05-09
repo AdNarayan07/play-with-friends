@@ -30,7 +30,6 @@ function updateOnline(users, admin) {
     else userDiv.children[1].style.height = '80.5%'
 }
 function handleJoinError(res, socket) {
-    console.log(res.sender, socket.id)
     if(socket.id !== res.sender) return;
     if(res.optional) {
         const choice = window.confirm(res.error)
@@ -53,7 +52,7 @@ function displayMyRooms(rooms){
     if(rooms.length > 0) {
         document.querySelector('#myRooms > ul').innerHTML = ""
         rooms.forEach(room => {
-            document.querySelector('#myRooms > ul').innerHTML += `<a href="${location.href}/room?id=${room.id}"><li>${room.name}</li></a>`
+            document.querySelector('#myRooms > ul').innerHTML += `<a href="${location.protocol}//${location.hostname}:${location.port}/${room.parent}/room?id=${room.id}"><li>${room.name}</li></a>`
         });
     } else {
         document.querySelector('#myRooms > p').innerHTML = "No Rooms, Create One"
@@ -66,7 +65,6 @@ function displayMessage(message, bubble, isAuthor) {
     document.querySelector('#messageBox').style.cursor = "auto"
     document.querySelectorAll('#messageBox > input').forEach((e) => e.style.cursor = "auto")
     const dateTimeString = formatTimestamp(message.timestamp)
-    console.log('messageReceived')
     const side = isAuthor ? 'right' : 'left'
     const img = bubble ? `<img src="/assets/DPs/${message.dp}">`:`<img style="visibility:hidden">`
     const moreMargin = bubble ? 'more-margin' : ''
@@ -137,16 +135,13 @@ if(accountDiv){
 
 const connectRoom = () => {
     if(!user) return location.href = '/'
-    console.log("abkdbggc")
     socket.emit('joinRoom', { user, roomID })
 }
 const joinResponse = (res, room) => {
-    console.log(res)
     if(!res.status) handleJoinError(res, socket) 
     else {
     const { users, admin, messages } = res.data
     updateOnline(users, admin)
-    console.log(res.sender.id, socket.id)
     if(res.sender.id === socket.id) document.getElementById('accountHead').innerHTML = `<img src="/assets/DPs/${res.sender.data.dp}"><div>${res.sender.data.displayName}</div>`
     const data = {
         type: room,
@@ -156,7 +151,7 @@ const joinResponse = (res, room) => {
     }
     if(res.sender.id === socket.id) socket.emit('roomInput', data)
 
-    if(socket.id !== res.sender.id) return console.log('no need to add the messages');
+    if(socket.id !== res.sender.id) return;
     document.getElementById("message").innerHTML = ""
     let prevUser;
     messages.forEach((msg)=> {
