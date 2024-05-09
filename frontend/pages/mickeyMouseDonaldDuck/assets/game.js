@@ -198,7 +198,19 @@ startRound.addEventListener('click', () => {
 
 socket.on('connect', connectRoom)
 socket.on('joinResponse', (res) => joinResponse(res, 'mickeyMouseDonaldDuck'))
-socket.on('startGame', ({ players, display, admin }) => {
+socket.on('startGame', async ({ players, display, admin }) => {
+    while (!success) {
+        try {
+            let i = 0
+            papers.getChildren().forEach((paper)=>{
+                paper.enableBody(true, corners[i].x, corners[i].y, true, true)
+                i++
+            })
+        } catch (e) {
+            await sleep(100)
+            console.log(e)
+        }
+    }
     players.sort()
     console.log(display[players[0]])
     table.innerHTML = `<thead><th>Round</th><th>${display[players[0]]?.name || players[0]}</th><th>${display[players[1]]?.name || players[1]}</th><th>${display[players[2]]?.name || players[2]}</th></thead>`
