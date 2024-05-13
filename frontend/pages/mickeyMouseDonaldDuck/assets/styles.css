@@ -25,6 +25,7 @@
 }
 #gameCanvas {
     width: 50%;
+    position: relative;
 }
 canvas {
     border-radius: 10px;
@@ -86,8 +87,6 @@ td, th {
 th{
     background-color: black;
 }
-td{
-}
 tfoot{
     background-color: black;
     position: sticky;
@@ -112,4 +111,18 @@ tfoot{
 }
 #startGame > p {
     margin: 20px;
+}
+button#startRound{
+    background-color: black;
+    width: 80px;
+    height: 30px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid;
+    border-radius: 20px;
+}
+button#startRound:disabled{
+    display: none;
 }

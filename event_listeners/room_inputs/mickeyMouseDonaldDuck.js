@@ -6,16 +6,19 @@ module.exports = ({data, io, socket})=>{
 
     const cards = roomdata[roomID].game.cards
     const display = {}
-    roomdata[roomID].game.players.forEach(player => {
+    roomdata[roomID].users.forEach(player => {
         display[player] = {}
         display[player].name = userdata[player]?.displayName || "User"
         display[player].dp = userdata[player]?.dp || "1.png"
     })
-    if(input === "playerJoined"){
-        io.to(roomID).emit('playerAdded', { admin: roomdata[roomID].admin, game: roomdata[roomID].game, users: roomdata[roomID].users, display, newAdded: user, id: socket.id })
+
+    if(input === "playerJoined") {
+        if(roomdata[roomID].game.gameActive && !roomdata[roomID].game.players.includes(user)) io.to(roomID).emit('joinResponse', { status: 0, error: "You are not a part of ongoing game!", sender: socket.id })
+        else io.to(roomID).emit('playerAdded', { admin: roomdata[roomID].admin, game: roomdata[roomID].game, users: roomdata[roomID].users, display, newAdded: user, id: socket.id })
     }
+
     if(input === "startGame"){
-        if(roomdata[roomID].users?.length !== 3 && roomdata[roomID].game.gameActive) return;
+        if(roomdata[roomID].users?.length !== 3 || roomdata[roomID].game.gameActive || roomdata[roomID].game.roundActive) return;
         roomdata[roomID].game.players = roomdata[roomID].users
         roomdata[roomID].game.players.forEach(player=>{
         roomdata[roomID].game.scores[player] = 0
@@ -25,6 +28,7 @@ module.exports = ({data, io, socket})=>{
         roomdata[roomID].game.rounds = []
         io.to(roomID).emit('startGame', { display, players: roomdata[roomID].game.players, admin: roomdata[roomID].admin })
     }
+
     if(input === "nextRound" ){
         if(roomdata[roomID].game.roundActive && !roomdata[roomID].game.gameActive) return
         roomdata[roomID].game.roundActive = true
@@ -33,6 +37,7 @@ module.exports = ({data, io, socket})=>{
         }
         io.to(roomID).emit('fly')
     }
+
     if(input === "pickCard") {
         if(cards[card]) return console.log(cards, card);
         for (const c in cards) {

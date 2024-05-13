@@ -14,7 +14,6 @@ const winSound = new Audio('/assets/sounds/win.mp3')
 const tieSound = new Audio('/assets/sounds/tie.mp3')
 const connectSound = new Audio('/assets/sounds/connect.mp3')
 const disconnectSound = new Audio('/assets/sounds/disconnect.mp3')
-let gamePlayers = []
 let roundActive;
 let gameActive;
 
@@ -42,10 +41,11 @@ var config = {
 var game = new Phaser.Game(config);
 
 function preload() {
-    this.load.image('paper', '/mickeyMouseDonaldDuck/assets/closedChit.png');
-    this.load.image('table', '/assets/images/woodTexture.jpg')
+    this.load.image('paper', 'assets/closedChit.png');
+    this.load.image('table', '/assets/images/woodTexture.jpg', 800, 800)
     startGame.style.display = "flex"
 }
+
 let papers;
 let corners;
 function create() {
@@ -56,6 +56,7 @@ function create() {
 
     shuffle(corners)
     shuffle(names)
+
     for (let i = 0; i < 4; i++) {
         var paper = papers.create(corners[i].x, corners[i].y, 'paper');
         paper.setData('value', names[i]);
@@ -66,49 +67,21 @@ function create() {
     
     socket.on('fly', (data)=>{
             document.querySelectorAll(".card").forEach(e => e.innerHTML = "")
-            let i = 0
             shuffle(corners)
+            let i = 0
             papers.getChildren().forEach((paper)=>{
-                paper.setDrag(10000)
-                paper.setAngularDrag(Phaser.Math.FloatBetween(3500, 10000))
                 paper.enableBody(true, corners[i].x, corners[i].y, true, true)
+                fly(paper)
                 i++
-                paper.setAngularVelocity(50000)
-                paper.setVelocity(Phaser.Math.FloatBetween(2000, 3000), Phaser.Math.FloatBetween(2000, 3000))
             });
             roundActive = true
     })
+
     socket.on('pickResponse', (res)=>{
         const { card, user:inputUser } = res
         const paper = papers.getChildren().filter((e)=>e.getData('value') === card)
         paper[0].disableBody(true, true)
         document.querySelector(`#${inputUser} > .card`).innerHTML = `<img src="assets/closedChit.png">`
-    })
-    socket.on('roundOver', (data) => {
-        roundActive = false
-        console.log(data)
-        let players = data.players.sort()
-        table.innerHTML = `<thead><th>Round</th><th>${data.display[players[0]].name || players[0]}</th><th>${data.display[players[1]].name || players[1]}</th><th>${data.display[players[2]].name || players[2]}</th></thead>`
-        i = 0
-        data.rounds.forEach((round)=>{
-        i++
-        table.innerHTML += `<tr><th>${i}</th><td>${round.winners.includes(players[0]) ? 10 : 0}</td><td>${round.winners.includes(players[1]) ? 10 : 0}</td><td>${round.winners.includes(players[2]) ? 10 : 0}</td></tr>`
-        })
-        if(data.gameover){
-            table.innerHTML += `<tfoot><th>Total</th><td>${data.scores[players[0]]}</td><td>${data.scores[players[1]]}</td><td>${data.scores[players[2]]}</td></tfoot>`
-            gamePlayers = []
-            roundActive = false
-            gameActive = false
-            startGame.innerHTML = "<p>Game over</p>"
-            startGame.innerHTML += `<div>${table.outerHTML}</div>`
-            startGame.innerHTML += "<p>Click to restart!</p>"
-            startGame.style.display = "flex"
-        }
-        players.forEach(player =>{
-            document.querySelector(`#${player} > .card`).innerHTML = `<img src="assets/${data.playerCards[player]}.png">`
-        })
-        if(user !== data.loser) startRound.setAttribute('disabled', 'disabled')
-        else startRound.removeAttribute('disabled')
     })
 
     this.input.on('pointerdown', function(pointer, gameObject) {
@@ -125,13 +98,21 @@ function create() {
     });
 }
 
+socket.on('connect', connectRoom)
+socket.on('joinResponse', (res) => joinResponse(res, 'mickeyMouseDonaldDuck'))
+
 socket.on('playerAdded', async ({ admin, game, users, display, id }) => {
-    if(id !== socket.id) return;
-    if(users.length < 3) return startGame.innerHTML = "<p>Waiting for players...</p>"
+    if(users.length < 3) {
+        startGame.innerHTML = "<p>Waiting for players...</p>"
+        startGame.style.display = "flex"
+        return
+    } else {
+        startGame.style.display = "none"
+    }
     if (game.gameActive) {
+        if(id !== socket.id) return;
         gameActive = true;
         startGame.style.display = "none"
-        console.log(game.rounds)
         let players = game.players.sort()
         playersDiv.innerHTML = ""
         players.forEach(player => {
@@ -154,8 +135,8 @@ socket.on('playerAdded', async ({ admin, game, users, display, id }) => {
             else startRound.removeAttribute("disabled")
         }
         if(game.roundActive) startRound.setAttribute("disabled", "disabled")
-        let success = false;
-        while (!success) {
+        if(!game.roundActive && !game.rounds.length) return
+        while (true) {
             try {
                 roundActive = true
                 for (const card in game.cards) {
@@ -165,15 +146,10 @@ socket.on('playerAdded', async ({ admin, game, users, display, id }) => {
                         paper[0].disableBody(true, true);
                         document.querySelector(`#${game.cards[card]} > .card`).innerHTML = game.roundActive ? `<img src="assets/closedChit.png">` : `<img src="assets/${card}.png">`;
                         shuffle(corners)
-                        papers.getChildren().forEach((paper)=>{
-                            paper.setDrag(10000)
-                            paper.setAngularDrag(Phaser.Math.FloatBetween(3500, 10000))
-                            paper.setAngularVelocity(50000)
-                            paper.setVelocity(Phaser.Math.FloatBetween(2000, 3000), Phaser.Math.FloatBetween(2000, 3000))
-                        });
-                    }
+                        papers.getChildren().forEach(paper=>fly(paper));
+                    } else papers.getChildren().forEach(paper=>fly(paper));
                 }
-                success = true;
+                break;
             } catch (e) {
                 await sleep(100)
                 console.log(e)
@@ -184,35 +160,23 @@ socket.on('playerAdded', async ({ admin, game, users, display, id }) => {
         startGame.innerHTML = "<p>Click to start!<p/>"
     }
 })
-startRound.addEventListener('click', () => {
-    if(roundActive || !gameActive) return;
-    const data = {
-        type: 'mickeyMouseDonaldDuck',
-        input: 'nextRound',
-        user,
-        roomID
-    }
-    socket.emit('roomInput', data)
-    startRound.setAttribute('disabled', 'disabled')
-})
 
-socket.on('connect', connectRoom)
-socket.on('joinResponse', (res) => joinResponse(res, 'mickeyMouseDonaldDuck'))
 socket.on('startGame', async ({ players, display, admin }) => {
-    while (!success) {
+    while (true) {
         try {
             let i = 0
             papers.getChildren().forEach((paper)=>{
                 paper.enableBody(true, corners[i].x, corners[i].y, true, true)
                 i++
             })
+            break;
         } catch (e) {
             await sleep(100)
             console.log(e)
         }
     }
     players.sort()
-    console.log(display[players[0]])
+    console.log(display)
     table.innerHTML = `<thead><th>Round</th><th>${display[players[0]]?.name || players[0]}</th><th>${display[players[1]]?.name || players[1]}</th><th>${display[players[2]]?.name || players[2]}</th></thead>`
     playersDiv.innerHTML = ""
     players.forEach(player => {
@@ -228,6 +192,31 @@ socket.on('startGame', async ({ players, display, admin }) => {
     if(user !== admin) startRound.setAttribute('disabled', 'disabled')
     else startRound.removeAttribute('disabled')
 })
+socket.on('roundOver', (data) => {
+    roundActive = false
+    console.log(data)
+    let players = data.players.sort()
+    table.innerHTML = `<thead><th>Round</th><th>${data.display[players[0]].name || players[0]}</th><th>${data.display[players[1]].name || players[1]}</th><th>${data.display[players[2]].name || players[2]}</th></thead>`
+    i = 0
+    data.rounds.forEach((round)=>{
+    i++
+    table.innerHTML += `<tr><th>${i}</th><td>${round.winners.includes(players[0]) ? 10 : 0}</td><td>${round.winners.includes(players[1]) ? 10 : 0}</td><td>${round.winners.includes(players[2]) ? 10 : 0}</td></tr>`
+    })
+    if(data.gameover){
+        table.innerHTML += `<tfoot><th>Total</th><td>${data.scores[players[0]]}</td><td>${data.scores[players[1]]}</td><td>${data.scores[players[2]]}</td></tfoot>`
+        roundActive = false
+        gameActive = false
+        startGame.innerHTML = "<p>Game over</p>"
+        startGame.innerHTML += `<div>${table.outerHTML}</div>`
+        startGame.innerHTML += "<p>Click to restart!</p>"
+        startGame.style.display = "flex"
+    }
+    players.forEach(player =>{
+        document.querySelector(`#${player} > .card`).innerHTML = `<img src="assets/${data.playerCards[player]}.png">`
+    })
+    if(user !== data.loser) startRound.setAttribute('disabled', 'disabled')
+    else startRound.removeAttribute('disabled')
+})
 socket.on('messageReceived', (msg)=> {
     const prevMsg = document.querySelectorAll('.msg-container > .msg')
     const prevAuthor = prevMsg?.[prevMsg.length - 1]?.getAttribute('author')
@@ -240,9 +229,13 @@ socket.on('disconnectResponse', (res) => {
       return location.reload()
     } else {
       console.log(res)
-      const { users, admin, } = res.data
+      const { users, admin } = res.data
       updateOnline(users, admin)
       disconnectSound.play()
+      if(users.length < 3){
+        startGame.innerHTML = gameActive ? `<p>Someone disconnected! Waiting...</p>` : `<p>Waiting for players...</p>`
+        startGame.style.display = "flex"
+      }
     }
   })
 
@@ -254,13 +247,12 @@ socket.on('deleteResponse', ({status, error, id})=>{
         if(socket.id === id) alert('error: ' + error)
     }
 })
+
 socket.on('leaveRoom', (req) => {
     console.log('disconnect me')
     if(req.user === user && req.id !== socket.id) return location.href = '/mickeyMouseDonaldDuck'
 })
-document.addEventListener('keypress', function(e) {
-    if(document.activeElement === document.querySelector('input[type="text"]')) return
-})
+
 startGame.addEventListener('click', (e)=>{
     const data = { 
         type: 'mickeyMouseDonaldDuck',
@@ -271,7 +263,24 @@ startGame.addEventListener('click', (e)=>{
     }
     socket.emit('roomInput', data)
 })
+startRound.addEventListener('click', () => {
+    if(roundActive || !gameActive) return;
+    const data = {
+        type: 'mickeyMouseDonaldDuck',
+        input: 'nextRound',
+        user,
+        roomID
+    }
+    socket.emit('roomInput', data)
+    startRound.setAttribute('disabled', 'disabled')
+})
 document.getElementById("messageBox").addEventListener('submit', (e)=>{
     e.preventDefault()
     sendMessage(socket)
 })
+function fly(paper){
+    paper.setDrag(10000)
+    paper.setAngularDrag(Phaser.Math.FloatBetween(3500, 10000))
+    paper.setAngularVelocity(50000)
+    paper.setVelocity(Phaser.Math.FloatBetween(2000, 3000), Phaser.Math.FloatBetween(2000, 3000))
+}
