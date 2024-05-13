@@ -9,6 +9,8 @@ module.exports = ({data, socket, io, socketUserMap})=>{
     } else if(roomdata[roomID].users.length >= roomdata[roomID].max && !roomdata[roomID].users.includes(user)){
         console.log("limit exceeded")
         return socket.emit('joinResponse', { status: 0, error: "Room already full!", sender: socket.id });
+    } else if(!userdata[user]){
+        return socket.emit('logout', socket.id)
     }
     let roomMembers = roomdata[roomID].users
     if(roomMembers.includes(user) && !room) return socket.emit('joinResponse', { status: 0, error: "You have already joined this room in a different session. \n Ok: Leave this session \n Cancel: Leave other session(s)", optional: true, sender: socket.id });

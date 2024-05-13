@@ -100,7 +100,11 @@ function create() {
 
 socket.on('connect', connectRoom)
 socket.on('joinResponse', (res) => joinResponse(res, 'mickeyMouseDonaldDuck'))
-
+socket.on('logout', (id)=>{
+    if(id !== socket.id) return;
+    localStorage.removeItem('user')
+    location.href = location.hostname
+})
 socket.on('playerAdded', async ({ admin, game, users, display, id }) => {
     if(users.length < 3) {
         startGame.innerHTML = "<p>Waiting for players...</p>"
