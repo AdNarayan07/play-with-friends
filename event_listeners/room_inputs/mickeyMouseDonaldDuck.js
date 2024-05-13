@@ -49,12 +49,13 @@ module.exports = ({data, io, socket})=>{
             let gameover = false;
             const winners = []
             let loser;
+            console.log(cards)
             if (cards.mickey !== null && cards.mouse !== null) winners.push(cards.mickey, cards.mouse)
             else loser = cards.mickey || cards.mouse;
             
             if (cards.donald !== null && cards.duck !== null) winners.push(cards.donald, cards.duck)
             else loser = cards.donald || cards.duck;
-
+            console.log(winners)
             winners.forEach(winner => roomdata[roomID].game.scores[winner] += 10)
             roomdata[roomID].game.rounds.push({winners, loser})
             if(roomdata[roomID].game.rounds.length >= roomdata[roomID].game.maxRounds) {

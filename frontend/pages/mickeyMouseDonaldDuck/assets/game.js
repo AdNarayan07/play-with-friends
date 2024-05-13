@@ -263,7 +263,7 @@ startGame.addEventListener('click', (e)=>{
         input: 'startGame',
         roomID,
         user,
-        rounds: undefined || 3
+        rounds: undefined || 10
     }
     socket.emit('roomInput', data)
 })
